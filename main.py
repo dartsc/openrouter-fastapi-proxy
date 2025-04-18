@@ -1,10 +1,10 @@
-# filename: openrouter_proxy.py
 from fastapi import FastAPI, Request
 import uvicorn
 import requests
+import os
 
 app = FastAPI()
-API_KEY = "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"
+API_KEY = os.getenv("API_KEY")  # Read from env var
 
 @app.post("/chat")
 async def chat(req: Request):
@@ -26,5 +26,3 @@ async def chat(req: Request):
 
     response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=data)
     return response.json()
-
-# To run: uvicorn openrouter_proxy:app --reload
